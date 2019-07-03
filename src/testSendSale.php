@@ -7,7 +7,7 @@ $email = htmlspecialchars($_POST['userEmail'],ENT_NOQUOTES,'UTF-8');
 $subdomain = 'aeroviradmin'; //Наш аккаунт - поддомен
 $user = array(
     'USER_LOGIN' => 'aeroviradmin@gmail.com', //Ваш логин (электронная почта)
-    'USER_HASH' => 'f95836ed91071fc3364db757a4fa9430c285abb2' //Хэш для доступа к API (смотрите в профиле пользователя)
+    'USER_HASH' => '0878718c85655cd0a662591d890927d84b3fc989' //Хэш для доступа к API (смотрите в профиле пользователя)
 );
 $phoneFieldId = '414355'; //ID поля "Телефон" в amocrm
 $emailFieldId = '414357'; //ID поля "Email" в amocrm
@@ -45,15 +45,13 @@ if (authorize() > 0) {
 header('Location: index.php');
 
 /**Функуция авторизации скрипта на amocrm.
- * @param $user {array} - массив с логином пользователя и hash api ключем
- * @param $subdomain {string} - поддомен, по которому имеем доступ к amocrm
  * @return int - Если авторизовались = 1, если нет = -1.
  */
 function authorize()
 {
     $user = array (
         'USER_LOGIN' => 'aeroviradmin@gmail.com' , #Ваш логин (электронная почта)
-        'USER_HASH' => 'f95836ed91071fc3364db757a4fa9430c285abb2' #Хэш для доступа к API (смотрите в профиле пользователя)
+        'USER_HASH' => '0878718c85655cd0a662591d890927d84b3fc989' #Хэш для доступа к API (смотрите в профиле пользователя)
     ) ;
     $subdomain = 'aeroviradmin' ; #Наш аккаунт - поддомен
     $link = 'https://' . $subdomain . '.amocrm.ru/private/api/auth.php?type=json';
@@ -214,6 +212,7 @@ function findContact($subdomain, $email)
  * @param $emailFieldId {number} - ID кастомного поля "Email"
  * @param $email {string} - email пользователя
  * @param $subdomain {string} - поддомен для доступа к amocrm
+ * @param $contactTags
  * @return int - ID добавленного пользователя
  */
 function addContact($name,$responsibleId,$phoneFieldId,$phone,$emailFieldId,$email, $subdomain, $contactTags)
@@ -290,8 +289,12 @@ function addContact($name,$responsibleId,$phoneFieldId,$phone,$emailFieldId,$ema
 }
 
 /**Функция создания новой сделки
- * @param $subdomain
+ * @param $dealName
+ * @param $dealStatusID
+ * @param $dealSale
  * @param $responsibleId
+ * @param $dealTags
+ * @param $subdomain
  * @return mixed
  */
 function addDeal($dealName, $dealStatusID, $dealSale, $responsibleId, $dealTags, $subdomain)
